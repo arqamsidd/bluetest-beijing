@@ -684,16 +684,12 @@ max-width: 300px;
       <div class="padding-global">
         <div class="container-large">
           <div class="news-loop_filters">
-            <div class="w-form">
-              <form id="wf-form-Accessories" name="wf-form-Accessories" data-name="Accessories" method="get" fs-list-element="filters" class="news-filter-form" data-wf-page-id="6968e38da023f68677ed9f98" data-wf-element-id="5707325b-3044-66e9-bea3-04f28d5c8878" data-ajax-action="contact"><label for="contact[email]">Email</label><input type="email" name="contact[email]" class="w-input" required="">
-                <div class="category-filter"><label class="radio-button-field news is-list-active w-radio"><input fs-list-value="" class="w-form-formradioinput radio-button-2 w-radio-input" fs-list-field="category" name="contact[accessory]" data-name="Accessory" type="radio" id="Show-all" checked="" value="Show all"><span class="heading-style-h3 w-form-label" for="Show-all">All</span>
-                    <div class="mainfacet">(<span>1</span>)</div>
-                  </label>
+            <div class="news-filter-form">
+                <div class="category-filter"><a href="<?php echo esc_url(get_post_type_archive_link('news')); ?>" class="radio-button-field news w-radio<?php echo empty($_GET['news_category']) ? ' is-list-active' : ''; ?>"><span class="heading-style-h3 w-form-label">All</span>
+                    <div class="mainfacet">(<span><?php echo intval(wp_count_posts('news')->publish); ?></span>)</div>
+                  </a>
                   <?php get_template_part('template-parts/query/news-categories') ?>
                 </div>
-              <?php udesly_honeypot_field() ?></form>
-              <div class="w-form-done"></div>
-              <div class="w-form-fail"></div>
             </div>
           </div>
           <?php get_template_part('template-parts/query/news-sorted-by-date') ?>
