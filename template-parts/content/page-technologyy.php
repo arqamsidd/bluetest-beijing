@@ -667,7 +667,7 @@ max-width: 300px;
         <div class="container-large">
           <div class="database-loop_filters">
             <div class="form-block w-form">
-              <form id="wf-form-DB" name="wf-form-Accessories" data-name="Accessories" method="get" fs-list-element="filters" class="db-filter-form" data-wf-page-id="6969514e9fe7e572d82e2639" data-wf-element-id="4e90d1aa-2e82-cc7f-8c3c-767af27e710b" data-ajax-action="contact"><label for="contact[email]">Email</label><input type="email" name="contact[email]" class="w-input" required="">
+              <form id="wf-form-DB" name="wf-form-Accessories" data-name="Accessories" method="get" fs-list-element="filters" class="db-filter-form" data-wf-page-id="6969514e9fe7e572d82e2639" data-wf-element-id="4e90d1aa-2e82-cc7f-8c3c-767af27e710b" data-ajax-action="contact">
                 <div class="db-filter-left">
                   <div class="db-filterby">
                     <div>Filter by: </div>

@@ -19,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
 
 $args = [
   "post_type" => "technology",
+  // Render the full database on one page — filtering/search is done client-side (replaces Finsweet).
+  "posts_per_page" => -1,
   "paged" => $paged
 ];
 

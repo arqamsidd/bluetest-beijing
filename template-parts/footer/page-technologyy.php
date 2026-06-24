@@ -143,3 +143,73 @@ setLayout('grid');
 });
 });
 </script>
+<script>
+// Client-side database filter (replaces the removed Finsweet fs-list).
+// Facets: category (single radio, exact match), tags (checkboxes, OR), free-text search
+// (substring across category/title/tag/description). Facets combine with AND.
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('.db-filter-form');
+  const loopWrap = document.querySelector('.db-loop_wrap');
+  if (!form || !loopWrap) return;
+
+  // Only the top-level technology cards (tag chips are also .w-dyn-item, so scope to direct children).
+  const items = Array.from(loopWrap.querySelectorAll(':scope > .w-dyn-item'));
+  const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+  const index = items.map((item) => {
+    const cat = norm(item.querySelector('[fs-list-field="category"]')?.textContent);
+    const title = norm(item.querySelector('[fs-list-field="title"]')?.textContent);
+    const desc = norm(item.querySelector('[fs-list-field="description"]')?.textContent);
+    const tags = Array.from(item.querySelectorAll('[fs-list-field="tag"]')).map((t) => norm(t.textContent)).filter(Boolean);
+    return { item, cat, tags, haystack: [cat, title, desc, tags.join(' ')].join(' ') };
+  });
+
+  const searchInput = form.querySelector('input[type="text"][fs-list-field]');
+
+  // No-results message (shown when filters exclude everything).
+  let emptyMsg = loopWrap.parentElement.querySelector('.db-no-results');
+  if (!emptyMsg) {
+    emptyMsg = document.createElement('div');
+    emptyMsg.className = 'db-no-results w-dyn-empty';
+    emptyMsg.style.display = 'none';
+    emptyMsg.innerHTML = '<div>No items found.</div>';
+    loopWrap.insertAdjacentElement('afterend', emptyMsg);
+  }
+
+  const apply = () => {
+    const catRadio = form.querySelector('input[fs-list-field="category"]:checked');
+    const selCat = catRadio ? norm(catRadio.getAttribute('fs-list-value')) : '';
+    const selTags = Array.from(form.querySelectorAll('input[fs-list-field="tag"]:checked'))
+      .map((c) => norm(c.getAttribute('fs-list-value'))).filter(Boolean);
+    const q = norm(searchInput && searchInput.value);
+
+    let visible = 0;
+    index.forEach((rec) => {
+      const okCat = !selCat || rec.cat === selCat;
+      const okTags = !selTags.length || selTags.some((t) => rec.tags.includes(t));
+      const okSearch = !q || rec.haystack.indexOf(q) !== -1;
+      const show = okCat && okTags && okSearch;
+      rec.item.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    emptyMsg.style.display = visible ? 'none' : '';
+  };
+
+  // Filtering is live — never let the GET form reload the page (the stray required field is gone,
+  // but pressing Enter in search would still submit).
+  form.addEventListener('submit', (e) => e.preventDefault());
+  form.addEventListener('change', apply);
+  form.addEventListener('input', apply);
+
+  // The "Category"/"Tags" toggles are also Finsweet "clear" buttons: reset selections on switch.
+  form.querySelectorAll('.db-filterby-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      form.querySelectorAll('input[fs-list-field="category"]:checked, input[fs-list-field="tag"]:checked')
+        .forEach((i) => { i.checked = false; });
+      apply();
+    });
+  });
+
+  apply();
+});
+</script>
