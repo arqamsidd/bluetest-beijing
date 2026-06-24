@@ -83,7 +83,7 @@
 
 .w-checkbox-input--inputType-custom.w--redirected-checked {
   background-color: #3898ec;
-  background-image: url('https://d3e54v103j8qbb.cloudfront.net/static/custom-checkbox-checkmark.589d534424.svg');
+  background-image: url('../images/webflow/custom-checkbox-checkmark.svg');
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -5280,7 +5280,7 @@ figcaption {
   opacity: .9;
   filter: blur(18px);
   inset: 0% auto auto 0%;
-  background-image: url('https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg');
+  background-image: url('../images/webflow/background-image.svg');
   background-position: 0 0;
   background-size: cover;
   width: 100%;
