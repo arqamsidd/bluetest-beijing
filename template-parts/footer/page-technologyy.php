@@ -183,6 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
       .map((c) => norm(c.getAttribute('fs-list-value'))).filter(Boolean);
     const q = norm(searchInput && searchInput.value);
 
+    // Highlight the chosen filters (matches the live site's is-list-active state).
+    form.querySelectorAll('input[fs-list-field="category"], input[fs-list-field="tag"]').forEach((input) => {
+      const label = input.closest('.radio-button-field');
+      if (label) label.classList.toggle('is-list-active', input.checked);
+    });
+
     let visible = 0;
     index.forEach((rec) => {
       const okCat = !selCat || rec.cat === selCat;
@@ -202,13 +208,14 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('input', apply);
 
   // The "Category"/"Tags" toggles are also Finsweet "clear" buttons: reset selections on switch.
-  form.querySelectorAll('.db-filterby-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      form.querySelectorAll('input[fs-list-field="category"]:checked, input[fs-list-field="tag"]:checked')
-        .forEach((i) => { i.checked = false; });
-      apply();
-    });
-  });
+  const allCat = form.querySelector('input[fs-list-field="category"][fs-list-value=""]');
+  const clearFilters = () => {
+    form.querySelectorAll('input[fs-list-field="tag"]:checked').forEach((i) => { i.checked = false; });
+    if (allCat) { allCat.checked = true; } // back to "All"
+    else { form.querySelectorAll('input[fs-list-field="category"]:checked').forEach((i) => { i.checked = false; }); }
+    apply();
+  };
+  form.querySelectorAll('.db-filterby-btn').forEach((btn) => btn.addEventListener('click', clearFilters));
 
   apply();
 });
