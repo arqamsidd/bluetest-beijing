@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 <?php
 
         if (isset($_GET['p_id'])) {
-          $paged = $_GET['p_id'];
+          $paged = max(1, intval($_GET['p_id']));
         } else {
           $paged = isset($args['paged']) ? $args['paged'] : 1;
         }
@@ -20,11 +20,15 @@ defined( 'ABSPATH' ) || exit;
 $args = [
   "post_type" => "news",
   "posts_per_page" => 1,
-  "order" => "ASC",
-  "orderby" => "meta_value",
-  "meta_key" => "date",
+  // Sort by the "date" custom field (Webflow ISO 8601, sorts chronologically as a string).
+  // Because there's also a meta_query (featured), ordering by a top-level meta_key is unreliable —
+  // name the date as its own clause and order by that clause. DESC = newest featured news first.
   "meta_query" => [
     "relation" => "AND",
+    "date_clause" => [
+      "key" => "date",
+      "compare" => "EXISTS"
+    ],
     "featured" => [
                 "relation" => "OR",
       [
@@ -35,6 +39,7 @@ $args = [
       ]
     ]
   ],
+  "orderby" => [ "date_clause" => "DESC" ],
   "paged" => $paged
 ];
 

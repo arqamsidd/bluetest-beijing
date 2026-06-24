@@ -84,18 +84,3 @@ window.addEventListener('scroll', update, { passive: true });
 window.addEventListener('resize', update);
 });
 </script>
-<script>
-window.addEventListener('load', () => {
-const filterRoot = document.querySelector('.category-filter');
-if (!filterRoot) return;
-const mainCountEl = filterRoot.querySelector('.mainfacet span');
-if (!mainCountEl) return;
-const facetEls = filterRoot.querySelectorAll('.facetcount [fs-list-element="facet-count"]');
-let total = 0;
-facetEls.forEach(el => {
-const n = parseInt((el.textContent || '').replace(/[^\d-]/g, ''), 10);
-total += Number.isFinite(n) ? n : 0;
-});
-mainCountEl.textContent = String(total);
-});
-</script>
