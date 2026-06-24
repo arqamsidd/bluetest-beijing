@@ -43,7 +43,7 @@ $conditionResult = false;
 
 } ?><?php if ($conditionResult) : ?><img src="<?php echo udesly_get_custom_term_field( $term->term_id, "main-image", "ImageRef" )->src ?>" loading="lazy" alt="<?php echo udesly_get_custom_term_field( $term->term_id, "main-image", "ImageRef" )->alt ?>" class="accessories-loop-img" data-img="in38b8d9ca" srcset="<?php echo udesly_get_custom_term_field( $term->term_id, "main-image", "ImageRef" )->srcset ?>"><?php endif  ?></a>
                     <div class="accessories-loop_image_content">
-                      <?php get_template_part('template-parts/query/accessory-categories-of-current-accessory') ?>
+                      <?php get_template_part('template-parts/query/accessory-categories-of-current-accessory', null, ['term' => $term]) ?>
                       <a href="<?php echo get_term_link($term) ?>" class="absolute-link w-inline-block"></a>
                     </div>
                   </div>
