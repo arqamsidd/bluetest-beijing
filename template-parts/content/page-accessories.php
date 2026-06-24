@@ -685,7 +685,7 @@ max-width: 300px;
             <div class="accessories-filter_categories">
               <div class="accessories-filter_heading f-spacegrotesk" data-text="t30493ba2"><?php echo _u('t30493ba2','text'); ?></div>
               <div class="w-form">
-                <form id="wf-form-Accessories" name="wf-form-Accessories" data-name="Accessories" method="get" fs-list-element="filters" class="accessories-filter-form" data-wf-page-id="69690aa6e371b6c3b019ce9f" data-wf-element-id="58c58b56-a055-c113-4af6-04dc3e4eec82" data-ajax-action="contact"><label for="contact[email]">Email</label><input type="email" name="contact[email]" class="w-input" required="">
+                <form id="wf-form-Accessories" name="wf-form-Accessories" data-name="Accessories" method="get" fs-list-element="filters" class="accessories-filter-form" data-wf-page-id="69690aa6e371b6c3b019ce9f" data-wf-element-id="58c58b56-a055-c113-4af6-04dc3e4eec82" data-ajax-action="contact">
                   <div class="category-filter access"><label class="radio-button-field is-list-active w-radio"><input fs-list-value="" class="w-form-formradioinput radio-button-2 w-radio-input" fs-list-field="category" name="contact[accessory]" data-name="Accessory" type="radio" id="Show-all" checked="" value="Show all"><span class="accessories-category w-form-label" for="Show-all">Show all</span></label>
                     <?php get_template_part('template-parts/query/accessory-categories-sorted-by-name') ?>
                   </div>

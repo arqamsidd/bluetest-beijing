@@ -21,8 +21,8 @@ endwhile;
 // End of the loop.
 
 $args = [
-  'footer' => 'footer/front-page',
-];  
+  'footer' => 'footer/page-accessories',
+];
 
 if (function_exists('udesly_output_frontend_editor_data')) {
      udesly_output_frontend_editor_data('page-accessories');
