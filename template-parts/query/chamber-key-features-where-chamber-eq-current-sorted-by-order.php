@@ -19,21 +19,27 @@ defined( 'ABSPATH' ) || exit;
 
 $args = [
   "post_type" => "key-feature",
-  "order" => "ASC",
-  "orderby" => "meta_value_num",
-  "meta_key" => "order",
+  "posts_per_page" => -1,
   "tax_query" => [
-    "0" => [
+    [
       "taxonomy" => "chamber",
-      "field" => "id",
+      "field" => "term_id",
       "operator" => "IN",
       "terms" => [
         get_queried_object_id()
       ]
-    ],
-    "relation" => "AND"
+    ]
   ],
-  "paged" => $paged
+  // Sort by the "order" custom field when set, but don't REQUIRE it. Udesly imported "order"
+  // as null for every key-feature, and a bare meta_key turns into a hard "must have this meta"
+  // filter that excluded them all ("No items found"). EXISTS/NOT EXISTS keeps unordered items in.
+  "meta_query" => [
+    "relation"  => "OR",
+    "ordered"   => [ "key" => "order", "type" => "NUMERIC", "compare" => "EXISTS" ],
+    "unordered" => [ "key" => "order", "compare" => "NOT EXISTS" ],
+  ],
+  "orderby" => [ "ordered" => "ASC", "ID" => "ASC" ],
+  "order"   => "ASC",
 ];
 
 $args = apply_filters('udesly/posts/chamber-key-features-where-chamber-eq-current-sorted-by-order', $args);
