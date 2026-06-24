@@ -20,9 +20,10 @@ defined( 'ABSPATH' ) || exit;
 $args = [
   "post_type" => "news",
   "posts_per_page" => 2,
-  "order" => "ASC",
+  "order" => "DESC",
   "orderby" => "meta_value",
   "meta_key" => "date",
+  // "date" is Webflow ISO 8601; string sort is chronological. DESC = newest first.
   "paged" => $paged
 ];
 
@@ -34,7 +35,7 @@ $args = apply_filters('udesly/posts/news-max-2-sorted-by-date', $args);
                 <?php if ( $query->have_posts() ) : ?><div role="list" class="collection-list w-dyn-items">
                   <?php while ($query->have_posts()) : $query->the_post(); global $post; ?><div role="listitem" class="collection-item-3 w-dyn-item">
                     <div class="solution-slider-card news">
-                      <a href="<?php the_permalink() ?>" class="link-block-2 w-inline-block"><img src="<?php echo udesly_get_image()->src ?>" loading="lazy" alt="<?php echo udesly_get_image()->alt ?>" class="solution-slider-card_img news" data-img="in38b8d9ca" srcset="<?php echo udesly_get_image()->srcset ?>"></a>
+                      <a href="<?php the_permalink() ?>" class="link-block-2 w-inline-block"><?php if (udesly_get_image()->id == "") : /* No CMS image: show default placeholder */ ?><img src="<?php echo udesly_get_image(_u('in2a485a80', 'img'))->src ?>" loading="lazy" alt="<?php echo udesly_get_image(_u('in2a485a80', 'img'))->alt ?>" class="solution-slider-card_img news" data-img="in2a485a80" srcset="<?php echo udesly_get_image(_u('in2a485a80', 'img'))->srcset ?>"><?php else : ?><img src="<?php echo udesly_get_image()->src ?>" loading="lazy" alt="<?php echo udesly_get_image()->alt ?>" class="solution-slider-card_img news" data-img="in38b8d9ca" srcset="<?php echo udesly_get_image()->srcset ?>"><?php endif ?></a>
                       <div class="solution-slider-card_content news">
                         <a href="<?php the_permalink() ?>" class="link-block w-inline-block">
                           <h3 class="card-heading-fancy"><?php the_title() ?></h3>
