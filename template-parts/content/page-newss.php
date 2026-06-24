@@ -685,8 +685,22 @@ max-width: 300px;
         <div class="container-large">
           <div class="news-loop_filters">
             <div class="news-filter-form">
+                <?php
+                // Total published news for the "All" facet. wp_count_posts() can return a stale
+                // cached 0 after a bulk CMS import, so count the real posts via found_posts.
+                $news_total_q = new WP_Query([
+                  'post_type'              => 'news',
+                  'post_status'            => 'publish',
+                  'posts_per_page'         => 1,
+                  'fields'                 => 'ids',
+                  'update_post_meta_cache' => false,
+                  'update_post_term_cache' => false,
+                ]);
+                $news_total = intval($news_total_q->found_posts);
+                wp_reset_postdata();
+                ?>
                 <div class="category-filter"><a href="<?php echo esc_url(get_post_type_archive_link('news')); ?>" class="radio-button-field news w-radio<?php echo empty($_GET['news_category']) ? ' is-list-active' : ''; ?>"><span class="heading-style-h3 w-form-label">All</span>
-                    <div class="mainfacet">(<span><?php echo intval(wp_count_posts('news')->publish); ?></span>)</div>
+                    <div class="mainfacet">(<span><?php echo $news_total; ?></span>)</div>
                   </a>
                   <?php get_template_part('template-parts/query/news-categories') ?>
                 </div>
